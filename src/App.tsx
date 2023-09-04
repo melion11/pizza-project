@@ -1,13 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import './scss/app.scss'
 import {Header} from "./components/Header/Header";
 import {Categories} from "./components/Categories/Categories";
 import {Sort} from "./components/Sort/Sort";
 import {PizzaBlock} from "./components/PizzaBlock/PizzaBlock";
-import items from './assets/pizza.json'
+import axios from 'axios';
+
 
 function App() {
+
+    const [items, setItems] = useState([])
+
+    useEffect(()=>{
+        axios.get('https://64f6308e2b07270f705e43e0.mockapi.io/items').then(res => {
+            setItems(res.data)
+        })
+    }, [])
 
 
     const pizzasElements = items.map(pizza => {
