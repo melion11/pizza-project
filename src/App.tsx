@@ -1,35 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './App.css';
 import './scss/app.scss'
 import {Header} from "./components/Header/Header";
-import {Categories} from "./components/Categories/Categories";
-import {Sort} from "./components/Sort/Sort";
-import {PizzaBlock} from "./components/PizzaBlock/PizzaBlock";
-import axios from 'axios';
+import {Home} from "./pages/Home";
+import {Route, Routes} from "react-router-dom";
+import {Cart} from "./pages/Cart";
+import {NotFound} from "./pages/NotFound";
 
 
 function App() {
-
-    const [items, setItems] = useState([])
-
-    useEffect(()=>{
-        axios.get('https://64f6308e2b07270f705e43e0.mockapi.io/items').then(res => {
-            setItems(res.data)
-        })
-    }, [])
-
-
-    const pizzasElements = items.map(pizza => {
-        const {id, price, imageUrl, title, category, rating, sizes, types} = pizza
-
-        return (
-            <PizzaBlock key={id} id={id} title={title}
-                        price={price} imageUrl={imageUrl}
-                        types={types} sizes={sizes} rating={rating} category={category}
-            />
-        )
-    })
-
 
 
     return (
@@ -37,14 +16,12 @@ function App() {
             <Header/>
             <div className="content">
                 <div className="container">
-                    <div className="content__top">
-                        <Categories/>
-                        <Sort/>
-                    </div>
-                    <h2 className="content__title">All pizza's</h2>
-                    <div className="content__items">
-                        {pizzasElements}
-                    </div>
+                    <Routes>
+                        <Route path={'/'} element={<Home/>}/>
+                        <Route path={'/cart'} element={<Cart/>}/>
+                        <Route path={'*'} element={<NotFound/>}/>
+                    </Routes>
+                    <Home/>
                 </div>
             </div>
         </div>

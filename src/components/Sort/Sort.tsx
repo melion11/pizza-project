@@ -2,19 +2,19 @@ import React, {useState} from 'react';
 
 export const Sort = () => {
 
-    const [showPopup, setShowPopup] = useState(false)
-    const [activeSort, setActiveSort] = useState(0)
+    const [isActivePopup, setIsActivePopup] = useState(false)
+    const [selectedSort, setSelectedSort] = useState(0)
     const sortNames = ['popularity', 'price', 'the alphabet']
 
-    const changeSortHandler = (item: number) => {
-        setActiveSort(item)
-        setShowPopup(false)
+    const changeSortHandler = (sort: number) => {
+        setSelectedSort(sort)
+        setIsActivePopup(false)
     }
 
 
-    const sortElements = sortNames.map((sort,i) => {
+    const sortElements = sortNames.map((sort, i)=> {
         return (
-            <li key={i} onClick={()=>changeSortHandler(i)} className={activeSort === i ? "active" : ''}>{sort}</li>
+            <li onClick={()=>changeSortHandler(i)} className={selectedSort === i ? "active" : ''}>{sort}</li>
         )
     })
 
@@ -34,14 +34,14 @@ export const Sort = () => {
                     />
                 </svg>
                 <b>Sorting by:</b>
-                <span  onClick={()=> setShowPopup(!showPopup)}>{sortNames[activeSort]}</span>
+                <span onClick={()=>setIsActivePopup(!isActivePopup)} >{sortNames[selectedSort]}</span>
             </div>
-            { showPopup &&
-                <div className="sort__popup">
-                    <ul>
-                        {sortElements}
-                    </ul>
-                </div>
+            {isActivePopup &&
+            <div className="sort__popup">
+                <ul>
+                    {sortElements}
+                </ul>
+            </div>
             }
         </div>
     );
