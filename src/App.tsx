@@ -4,8 +4,8 @@ import './scss/app.scss'
 import {Header} from "./components/Header/Header";
 import {Home} from "./pages/Home";
 import {Route, Routes} from "react-router-dom";
-import {Cart} from "./pages/Cart";
-import {NotFound} from "./pages/NotFound";
+import {CartPage} from "./pages/CartPage";
+import {NotFoundPage} from "./pages/NotFoundPage";
 
 
 function App() {
@@ -15,15 +15,13 @@ function App() {
         <div className="wrapper">
             <Header/>
             <div className="content">
-                <div className="container">
                     <Routes>
                         <Route path={'/'} element={<Home/>}/>
-                        <Route path={'/cart'} element={<Cart/>}/>
-                        <Route path={'*'} element={<NotFound/>}/>
+                        <Route path={'/cart'} element={<CartPage/>}/>
+                        <Route path={'*'} element={<NotFoundPage/>}/>
                     </Routes>
                 </div>
             </div>
-        </div>
     );
 }
 

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Categories} from "../components/Categories/Categories";
-import {Sort} from "../components/Sort/Sort";
-import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
-import {Skeleton} from "../components/PizzaBlock/Skeleton";
-import axios from "axios";
+import {Categories} from '../components/Categories/Categories';
+import {Sort} from '../components/Sort/Sort';
+import {PizzaBlock} from '../components/PizzaBlock/PizzaBlock';
+import {Skeleton} from '../components/PizzaBlock/Skeleton';
+import axios from 'axios';
 
 
 export const Home = () => {
@@ -17,6 +17,7 @@ export const Home = () => {
             setItems(res.data)
             setIsLoading(false)
         })
+        window.scrollTo(0,0)
     }, [])
 
     const pizzasElements = items.map(pizza => {
@@ -33,7 +34,7 @@ export const Home = () => {
 
 
     return (
-        <>
+        <div className="container">
             <div className="content__top">
                 <Categories/>
                 <Sort/>
@@ -42,8 +43,7 @@ export const Home = () => {
             <div className="content__items">
                 {isLoading ? skeletonElements : pizzasElements}
             </div>
-        </>
-    )
-        ;
+        </div>
+    );
 };
 
