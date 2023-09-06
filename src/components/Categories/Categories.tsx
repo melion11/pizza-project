@@ -1,21 +1,27 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-export const Categories = () => {
 
-    const [activeCategory, setActiveCategory] = useState(1)
+type CategoriesProps = {
+    value: number
+    changeCategory: (newCategoryId: number) => void
+}
+
+
+export const Categories = ({value, changeCategory}: CategoriesProps) => {
+
 
     const categories = [
-        {id: 1, title: 'All'},
-        {id: 2, title: 'Meat'},
-        {id: 3, title: 'Vegetarian'},
-        {id: 4, title: 'Grill'},
-        {id: 5, title: 'Sharp'},
-        {id: 6, title: 'Closed'},
+        {id: 0, title: 'All'},
+        {id: 1, title: 'Meat'},
+        {id: 2, title: 'Vegetarian'},
+        {id: 3, title: 'Grill'},
+        {id: 4, title: 'Sharp'},
+        {id: 5, title: 'Closed'},
     ]
 
     const categoriesElements = categories.map(el => {
         return (
-            <li key={el.id} onClick={()=> {setActiveCategory(el.id)}} className={activeCategory === el.id ? "active" : ''}>{el.title}</li>
+            <li key={el.id} onClick={()=> {changeCategory(el.id)}} className={value === el.id ? "active" : ''}>{el.title}</li>
         )
     })
 
