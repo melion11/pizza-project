@@ -1,16 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Categories} from '../components/Categories/Categories';
 import {Sort} from '../components/Sort/Sort';
 import {PizzaBlock} from '../components/PizzaBlock/PizzaBlock';
 import {Skeleton} from '../components/PizzaBlock/Skeleton';
 import axios from 'axios';
 import {Pagination} from '../components/Pagination/Pagination';
-import {SearchContext} from "../App";
-
-export type SortType = {
-    title: string
-    sortBy: 'rating' | 'price' | 'title'
-}
+import {useAppSelector} from '../app/hooks';
 
 
 export type PizzaType = {
@@ -31,40 +26,35 @@ type HomeProps = {
 
 export const Home = ({}:HomeProps) => {
 
-    const {searchValue} = useContext(SearchContext)
+    const categoryId = useAppSelector(state => state.filter.currentCategory.id)
+    const currentSortBy = useAppSelector(state => state.filter.currentSortType.sortBy)
+    const order = useAppSelector(state => state.filter.order)
+    const searchPizza = useAppSelector(state => state.pizza.searchPizza)
 
     const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState<PizzaType[]>([])
-    const [categoryId, setCategoryId] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
-    const [orderType, setOrderType] = useState<'desc' | 'asc'>('desc')
-    const [sortType, setSortType] = useState<SortType>({title: 'popularity', sortBy: 'rating'})
+
+
 
 
     useEffect(() => {
-
         const category = categoryId > 0 ? `&category=${categoryId}` : ''
-        const sort = `&sortBy=${sortType.sortBy}`
-        const order = `&order=${orderType}`
-        const search = searchValue ? `&search=${searchValue}` : ''
+        const sort = `&sortBy=${currentSortBy}`
+        const orderType = `&order=${order}`
+        const search = searchPizza ? `&search=${searchPizza}` : ''
 
         setIsLoading(true)
-        axios.get(`https://64f6308e2b07270f705e43e0.mockapi.io/items?page=${currentPage}&limit=4${category}${sort}${order}${search}`)
+        axios.get(`https://64f6308e2b07270f705e43e0.mockapi.io/items?page=${currentPage}&limit=4${category}${sort}${orderType}${search}`)
             .then((res) => {
             setItems(res.data)
             setIsLoading(false)
         })
         window.scrollTo(0,0)
-    }, [categoryId, sortType, orderType, searchValue, currentPage])
+    }, [categoryId, currentSortBy, order, searchPizza, currentPage])
 
 
-    const changeCategory = (newCategoryId: number) => {
-        setCategoryId(newCategoryId)
-    }
 
-    const changeSortType = (newSortType: SortType) => {
-        setSortType(newSortType)
-    }
 
     const changePage = (selectedPage: number) => {
         setCurrentPage(selectedPage)
@@ -89,9 +79,8 @@ export const Home = ({}:HomeProps) => {
     return (
         <div className="container">
             <div className="content__top">
-                <Categories value={categoryId} changeCategory={changeCategory}/>
-                <Sort orderType={orderType} onChangeOrderType={setOrderType}
-                      value={sortType} changeSortType={changeSortType}/>
+                <Categories/>
+                <Sort/>
             </div>
             <h2 className="content__title">All pizza's</h2>
             <div className="content__items">

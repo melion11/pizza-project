@@ -7,23 +7,11 @@ import {Route, Routes} from "react-router-dom";
 import {CartPage} from "./pages/CartPage";
 import {NotFoundPage} from "./pages/NotFoundPage";
 
-type SearchContextType = {
-    searchValue: string;
-    setSearchValue: React.Dispatch<React.SetStateAction<string>>;
-}
-
-
-export const SearchContext = createContext<SearchContextType>({
-    searchValue: '',
-    setSearchValue: () => {}
-});
 
 function App() {
 
-    const [searchValue, setSearchValue] = useState('')
 
     return (
-        <SearchContext.Provider value={{searchValue, setSearchValue}}>
             <div className="wrapper">
                 <Header/>
                 <div className="content">
@@ -34,7 +22,6 @@ function App() {
                     </Routes>
                 </div>
             </div>
-        </SearchContext.Provider>
     );
 }
 

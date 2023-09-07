@@ -1,8 +1,8 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import pizzaLogo from '../../assets/img/pizza-logo.svg'
 import {Link} from 'react-router-dom';
 import {Search} from '../Search/Search';
-import {SearchContext} from "../../App";
+import {useAppSelector} from '../../app/hooks';
 
 
 type HeaderProps = {
@@ -11,10 +11,6 @@ type HeaderProps = {
 
 
 export const Header = ({}: HeaderProps) => {
-
-    const {searchValue, setSearchValue} = useContext(SearchContext)
-
-
 
     return (
         <div className="header">
@@ -30,7 +26,7 @@ export const Header = ({}: HeaderProps) => {
                         </div>
                     </div>
                 </Link>
-                <Search setSearchValue={setSearchValue} searchValue={searchValue}/>
+                <Search/>
                 <div className="header__cart">
                     <Link to={'/cart'} className="button button--cart">
                         <span>520 ₽</span>
