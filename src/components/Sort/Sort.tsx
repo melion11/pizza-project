@@ -25,7 +25,7 @@ export const Sort = ({value,changeSortType, onChangeOrderType, orderType}:SortPr
         changeSortType(sort)
         setIsActivePopup(false)
     }
-    console.log(orderType)
+
     const changeOrderHandler = () => {
         if (orderType === 'asc') {
             onChangeOrderType('desc');

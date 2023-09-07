@@ -1,16 +1,21 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import pizzaLogo from '../../assets/img/pizza-logo.svg'
 import {Link} from 'react-router-dom';
 import {Search} from '../Search/Search';
+import {SearchContext} from "../../App";
 
 
 type HeaderProps = {
-    searchValue: string
-    setSearchValue: (value: string) => void
+
 }
 
 
-export const Header = ({setSearchValue, searchValue}: HeaderProps) => {
+export const Header = ({}: HeaderProps) => {
+
+    const {searchValue, setSearchValue} = useContext(SearchContext)
+
+
+
     return (
         <div className="header">
             <div className="container">

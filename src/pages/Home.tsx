@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Categories} from '../components/Categories/Categories';
 import {Sort} from '../components/Sort/Sort';
 import {PizzaBlock} from '../components/PizzaBlock/PizzaBlock';
 import {Skeleton} from '../components/PizzaBlock/Skeleton';
 import axios from 'axios';
 import {Pagination} from '../components/Pagination/Pagination';
+import {SearchContext} from "../App";
 
 export type SortType = {
     title: string
@@ -25,11 +26,12 @@ export type PizzaType = {
 
 
 type HomeProps = {
-    searchValue: string
+
 }
 
-export const Home = ({searchValue}:HomeProps) => {
+export const Home = ({}:HomeProps) => {
 
+    const {searchValue} = useContext(SearchContext)
 
     const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState<PizzaType[]>([])
