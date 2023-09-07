@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import pizzaLogo from '../../assets/img/pizza-logo.svg'
 import {Link} from 'react-router-dom';
 import {Search} from '../Search/Search';
-import {useAppSelector} from '../../app/hooks';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import debounce from 'lodash.debounce';
+import {pizzaActions} from '../../app/slices/pizzaSlice';
 
 
 type HeaderProps = {
@@ -11,6 +13,16 @@ type HeaderProps = {
 
 
 export const Header = ({}: HeaderProps) => {
+
+    const dispatch = useAppDispatch()
+
+    const updateSearchValue = useCallback(debounce((searchValue: string) => {
+        dispatch(pizzaActions.getSearchPizza(searchValue))
+    }, 500), [])
+
+    const onClearHandler = () => {
+        dispatch(pizzaActions.getSearchPizza(''))
+    }
 
     return (
         <div className="header">
@@ -26,7 +38,7 @@ export const Header = ({}: HeaderProps) => {
                         </div>
                     </div>
                 </Link>
-                <Search/>
+                <Search onUpdateSearchValue={updateSearchValue} onClear={onClearHandler}/>
                 <div className="header__cart">
                     <Link to={'/cart'} className="button button--cart">
                         <span>520 ₽</span>

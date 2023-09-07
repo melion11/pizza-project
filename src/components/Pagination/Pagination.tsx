@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactPaginate from 'react-paginate';
-import {PizzaType} from '../../pages/Home';
 import styles from './Pagination.module.scss'
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
 
 type PaginationProps = {
-    itemsPerPage?: number
-    items: PizzaType[]
-    changePage: (selectedPage: number)=> void
+    itemsPerPage: number
+    onChangePage: (newPage: number) => void
 }
 
 type PageClickEvent = {
@@ -14,12 +13,16 @@ type PageClickEvent = {
 };
 
 
-export const Pagination = ({ itemsPerPage = 8 , items, changePage} : PaginationProps) => {
+export const Pagination = ({itemsPerPage, onChangePage} : PaginationProps) => {
 
-    const pageCount = Math.ceil(10 / itemsPerPage);
+    const totalCount = useAppSelector(state => state.filter.totalCount)
+
+
+    const pageCount = Math.ceil(totalCount / itemsPerPage);
 
     const handlePageClick = (event: PageClickEvent) => {
-        changePage(event.selected + 1);
+        onChangePage(event.selected + 1)
+
     };
 
     return (

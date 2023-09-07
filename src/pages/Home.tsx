@@ -5,7 +5,8 @@ import {PizzaBlock} from '../components/PizzaBlock/PizzaBlock';
 import {Skeleton} from '../components/PizzaBlock/Skeleton';
 import axios from 'axios';
 import {Pagination} from '../components/Pagination/Pagination';
-import {useAppSelector} from '../app/hooks';
+import {useAppDispatch, useAppSelector} from '../app/hooks';
+import {filterActions} from '../app/slices/filterSlice';
 
 
 export type PizzaType = {
@@ -26,21 +27,17 @@ type HomeProps = {
 
 export const Home = ({}:HomeProps) => {
 
-    const categoryId = useAppSelector(state => state.filter.currentCategory.id)
-    const currentSortBy = useAppSelector(state => state.filter.currentSortType.sortBy)
-    const order = useAppSelector(state => state.filter.order)
     const searchPizza = useAppSelector(state => state.pizza.searchPizza)
+    const {currentPage, currentCategory, currentSortType, order} = useAppSelector(state => state.filter)
 
     const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState<PizzaType[]>([])
-    const [currentPage, setCurrentPage] = useState(1)
 
-
-
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
-        const category = categoryId > 0 ? `&category=${categoryId}` : ''
-        const sort = `&sortBy=${currentSortBy}`
+        const category = currentCategory.id > 0 ? `&category=${currentCategory.id}` : ''
+        const sort = `&sortBy=${currentSortType.sortBy}`
         const orderType = `&order=${order}`
         const search = searchPizza ? `&search=${searchPizza}` : ''
 
@@ -51,14 +48,13 @@ export const Home = ({}:HomeProps) => {
             setIsLoading(false)
         })
         window.scrollTo(0,0)
-    }, [categoryId, currentSortBy, order, searchPizza, currentPage])
+    }, [currentCategory.id, currentSortType.sortBy, order, searchPizza, currentPage])
 
 
-
-
-    const changePage = (selectedPage: number) => {
-        setCurrentPage(selectedPage)
+    const onChangePageHandler = (newPage: number) => {
+        dispatch(filterActions.setCurrentPage(newPage));
     }
+
 
     // const filteredItems = items.filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase()))
 
@@ -86,7 +82,7 @@ export const Home = ({}:HomeProps) => {
             <div className="content__items">
                 {isLoading ? skeletonElements : pizzasElements}
             </div>
-            <Pagination changePage={changePage} items={items} itemsPerPage={4}/>
+            <Pagination onChangePage={onChangePageHandler} itemsPerPage={4}/>
         </div>
     );
 };

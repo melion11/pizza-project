@@ -17,6 +17,8 @@ type InitialStateType = {
     sortTypes: SortType[]
     currentSortType: SortType
     order: 'desc' | 'asc'
+    totalCount: number
+    currentPage: number
 }
 
 const initialState: InitialStateType = {
@@ -35,7 +37,9 @@ const initialState: InitialStateType = {
     ],
     currentCategory: {id: 0, title: 'All'},
     currentSortType: {title: 'popularity', sortBy: 'rating'},
-    order: 'desc'
+    order: 'desc',
+    totalCount: 10,
+    currentPage: 1,
 }
 
 const slice = createSlice({
@@ -51,6 +55,9 @@ const slice = createSlice({
         changeOrderType: (state, action) => {
             state.order = action.payload
         },
+        setCurrentPage: (state, action) => {
+            state.currentPage = action.payload
+        }
     }
 })
 
