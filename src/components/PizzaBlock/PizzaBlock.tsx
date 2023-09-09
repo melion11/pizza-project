@@ -1,23 +1,34 @@
 import React, {useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import {cartActions, PizzaItem} from '../Cart/cartSlice';
 
 
 type PizzaBlock = {
     id: number,
     imageUrl: string,
     title: string,
-    types?: number[],
-    sizes?: number[],
-    price?: number
+    types: number[],
+    sizes: number[],
+    price: number
     category?: number,
     rating?: number
 }
 
+const typeNames = ['thin', 'traditional']
+const sizeTypes = [26, 30,40]
 
-export const PizzaBlock = ({id, price, rating, sizes, imageUrl, types, title, category}: PizzaBlock) => {
+
+export const PizzaBlock = ({id, price, sizes, imageUrl, types, title}: PizzaBlock) => {
 
     const [activeType, setActiveType] = useState(0)
     const [activeSize, setActiveSize] = useState(0)
-    const typeNames = ['thin', 'traditional']
+    const dispatch = useAppDispatch()
+
+    const cartItem = useAppSelector(state => state.cart.items.find(item => item.id === id))
+
+    const addedCount = cartItem ? cartItem.count : 0
+
+
 
     const pizzaTypeElements = types?.map((type, index) => {
         return (
@@ -32,6 +43,19 @@ export const PizzaBlock = ({id, price, rating, sizes, imageUrl, types, title, ca
                 key={index}>{size} cm.</li>
         )
     })
+
+    const addPizzaHandler = () => {
+        const item: PizzaItem = {
+            id,
+            title,
+            price,
+            imageUrl,
+            type: typeNames[activeType],
+            size: sizeTypes[activeSize],
+            count: 1
+        }
+        dispatch(cartActions.addItem({item}))
+    }
 
     return (
         <div className="container">
@@ -53,7 +77,7 @@ export const PizzaBlock = ({id, price, rating, sizes, imageUrl, types, title, ca
                 </div>
                 <div className="pizza-block__bottom">
                     <div className="pizza-block__price">from {price}₽</div>
-                    <div className="button button--outline button--add">
+                    <div onClick={addPizzaHandler} className="button button--outline button--add">
                         <svg
                             width="12"
                             height="12"
@@ -67,7 +91,7 @@ export const PizzaBlock = ({id, price, rating, sizes, imageUrl, types, title, ca
                             />
                         </svg>
                         <span>Add</span>
-                        <i>2</i>
+                        {addedCount > 0 && <i>{addedCount}</i>}
                     </div>
                 </div>
             </div>

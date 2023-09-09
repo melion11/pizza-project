@@ -96,9 +96,6 @@ export const Home = ({}: HomeProps) => {
         dispatch(filterActions.setCurrentPage(newPage));
     }
 
-
-    // const filteredItems = items.filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-
     const pizzasElements = items.map(pizza => {
         const {id, price, imageUrl, title, category, rating, sizes, types} = pizza
 
@@ -109,7 +106,7 @@ export const Home = ({}: HomeProps) => {
         )
     })
 
-    const skeletonElements = [...new Array(9)].map((_, index) => <Skeleton key={index}/>)
+    const skeletonElements = [...new Array(4)].map((_, index) => <Skeleton key={index}/>)
 
 
     return (

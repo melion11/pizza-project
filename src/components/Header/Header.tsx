@@ -15,7 +15,13 @@ type HeaderProps = {
 
 export const Header = ({}: HeaderProps) => {
 
+    const {totalPrice, items} = useAppSelector(state => state.cart)
     const dispatch = useAppDispatch()
+
+    const totalCount = items.reduce((sum, item) => {
+        return item.count + sum
+    }, 0)
+
 
     const updateSearchValue = useCallback(debounce((searchValue: string) => {
         dispatch(pizzaActions.getSearchPizza(searchValue))
@@ -44,7 +50,7 @@ export const Header = ({}: HeaderProps) => {
                 <Search onUpdateSearchValue={updateSearchValue} onClear={onClearHandler}/>
                 <div className="header__cart">
                     <Link to={'/cart'} className="button button--cart">
-                        <span>520 ₽</span>
+                        <span>{totalPrice} ₽</span>
                         <div className="button__delimiter"></div>
                         <svg
                             width="18"
@@ -75,7 +81,7 @@ export const Header = ({}: HeaderProps) => {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                        <span>3</span>
+                        <span>{totalCount}</span>
                     </Link>
                 </div>
             </div>
