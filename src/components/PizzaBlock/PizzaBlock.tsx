@@ -24,7 +24,11 @@ export const PizzaBlock = ({id, price, sizes, imageUrl, types, title}: PizzaBloc
     const [activeSize, setActiveSize] = useState(0)
     const dispatch = useAppDispatch()
 
-    const cartItem = useAppSelector(state => state.cart.items.find(item => item.id === id))
+    const cartItem = useAppSelector(state => state.cart.items.find(item => {
+        return ((item.id === id) &&
+            (item.size === sizeTypes[activeSize]) &&
+            (item.type === typeNames[activeType]))
+    }))
 
     const addedCount = cartItem ? cartItem.count : 0
 

@@ -25,35 +25,41 @@ const slice = createSlice({
     initialState,
     reducers: {
         addItem: (state, action: PayloadAction<{ item: PizzaItem }>) => {
-            const index = state.items.findIndex(item => item.id === action.payload.item.id)
-            const findItem = state.items[index]
-            if (index > -1) {
-                findItem.count++
-            } else {
-                state.items.push(action.payload.item)
-            }
+            const findItem = state.items.find(item => {
+                return ((item.id === action.payload.item.id) &&
+                    (item.size === action.payload.item.size) &&
+                    (item.type === action.payload.item.type))
+            });
+            findItem ? findItem.count++ : state.items.push({...action.payload.item});
+
             state.totalPrice = state.items.reduce((sum, item) => {
                 return (item.price * item.count) + sum
             }, 0)
         },
         removeItem: (state, action) => {
-            const index = state.items.findIndex(item => item.id === action.payload)
-            const findItem = state.items[index]
-            if (index > -1) {
-                state.totalPrice = state.totalPrice - findItem.price
-                if (findItem.count > 1) {
-                    findItem.count--
-                } else {
-                    state.items.splice(index, 1)
-                }
+            const findItem = state.items.find(item => {
+                return ((item.id === action.payload.id) &&
+                    (item.size === action.payload.size) &&
+                    (item.type === action.payload.type))
+            });
+            if (findItem && findItem.count > 0) {
+                findItem.count--;
+                state.totalPrice -= findItem.price;
             }
         },
         clearItem: (state, action) => {
-            const index = state.items.findIndex(item => item.id === action.payload)
-            const findItem = state.items[index]
-            if (index > -1) {
-                state.totalPrice = state.totalPrice - (findItem.count * findItem.price)
-                state.items.splice(index, 1)
+            const findItem = state.items.find(item => {
+                return ((item.id === action.payload.id) &&
+                    (item.size === action.payload.size) &&
+                    (item.type === action.payload.type))
+            });
+
+            if (findItem) {
+                state.totalPrice -= findItem.price * findItem.count;
+                state.items = state.items.filter(item => {
+                    return ((item.id !== action.payload.id) || (item.size !== action.payload.size) ||
+                        (item.type !== action.payload.type))
+                });
 
             }
         },

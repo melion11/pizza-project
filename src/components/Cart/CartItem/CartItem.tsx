@@ -20,11 +20,11 @@ export const CartItem = ({id, count, price, imageUrl, title, type, size}: CartIt
     const dispatch = useAppDispatch()
 
     const removeItemHandler = () => {
-        dispatch(cartActions.removeItem(id))
+        dispatch(cartActions.removeItem({id, size, type, count, price}))
     }
 
     const clearItemHandler = () => {
-        dispatch(cartActions.clearItem(id))
+        dispatch(cartActions.clearItem({id, size, type, price}))
     }
 
     const addItemHandler = () => {
