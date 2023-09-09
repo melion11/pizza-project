@@ -5,6 +5,7 @@ import {Search} from '../Search/Search';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import debounce from 'lodash.debounce';
 import {pizzaActions} from '../../app/slices/pizzaSlice';
+import {filterActions} from "../../app/slices/filterSlice";
 
 
 type HeaderProps = {
@@ -24,14 +25,16 @@ export const Header = ({}: HeaderProps) => {
         dispatch(pizzaActions.getSearchPizza(''))
     }
 
+    const resetFiltersHandler = () => {
+        dispatch(filterActions.resetFilters())
+    }
+
     return (
         <div className="header">
             <div className="container">
-                <Link to={'/'}>
+                <Link onClick={resetFiltersHandler} to={'/'}>
                     <div className="header__logo">
-
                         <img width="38" src={pizzaLogo} alt="Pizza logo"/>
-
                         <div>
                             <h1>Mel Pizza</h1>
                             <p>the most delicious pizza in the universe</p>

@@ -57,6 +57,16 @@ const slice = createSlice({
         },
         setCurrentPage: (state, action) => {
             state.currentPage = action.payload
+        },
+        setFilters: (state, action) => {
+            state.currentPage = Number(action.payload.page)
+            state.currentCategory = action.payload.category
+            state.currentSortType = action.payload.sort
+        },
+        resetFilters: (state) => {
+            state.currentSortType = {title: 'popularity', sortBy: 'rating'}
+            state.currentCategory = {id: 0, title: 'All'}
+            state.currentPage = 1
         }
     }
 })
