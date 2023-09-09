@@ -11,12 +11,15 @@ export type CategoryType = {
     title: string
 }
 
+export type OrderType =  'desc' | 'asc'
+
 type InitialStateType = {
+    searchPizza: string
     categories: CategoryType[]
     currentCategory: CategoryType
     sortTypes: SortType[]
     currentSortType: SortType
-    order: 'desc' | 'asc'
+    order: OrderType
     totalCount: number
     currentPage: number
 }
@@ -40,12 +43,16 @@ const initialState: InitialStateType = {
     order: 'desc',
     totalCount: 10,
     currentPage: 1,
+    searchPizza: '',
 }
 
 const slice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
+        getSearchPizza: (state, action) => {
+            state.searchPizza = action.payload
+        },
         changeCategory: (state, action) => {
             state.currentCategory = action.payload
         },

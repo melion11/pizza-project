@@ -1,62 +1,33 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Categories} from '../components/Categories/Categories';
 import {Sort} from '../components/Sort/Sort';
 import {PizzaBlock} from '../components/PizzaBlock/PizzaBlock';
 import {Skeleton} from '../components/PizzaBlock/Skeleton';
-import axios from 'axios';
 import {Pagination} from '../components/Pagination/Pagination';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {filterActions} from '../app/slices/filterSlice';
 import qs from 'qs'
-import {useNavigate, useSearchParams} from "react-router-dom";
-
-export type PizzaType = {
-    id: number
-    imageUrl: string
-    title: string
-    types: [0, 1]
-    sizes: number[]
-    price: number
-    category: number
-    rating: number
-}
+import {useNavigate} from 'react-router-dom';
+import {pizzaThunks} from '../app/slices/pizzaSlice';
+import {Error} from '../components/Error/Error';
 
 
-type HomeProps = {}
+export const Home = () => {
 
-export const Home = ({}: HomeProps) => {
-
-    const searchPizza = useAppSelector(state => state.pizza.searchPizza)
-    const {
-        currentPage,
-        currentCategory,
-        currentSortType,
-        order,
-        sortTypes,
-        categories
+    const {pizzaItems, status} = useAppSelector(state => state.pizza)
+    const {currentPage, currentCategory, currentSortType, order, sortTypes, categories, searchPizza
     } = useAppSelector(state => state.filter)
-
-    const [isLoading, setIsLoading] = useState(false)
-    const [items, setItems] = useState<PizzaType[]>([])
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const isSearch = useRef(false)
     const isMounted = useRef(false)
 
-
     const fetchPizzas = () => {
-        const category = currentCategory.id > 0 ? `&category=${currentCategory.id}` : ''
-        const sort = `&sortBy=${currentSortType.sortBy}`
-        const orderType = `&order=${order}`
-        const search = searchPizza ? `&search=${searchPizza}` : ''
-
-        setIsLoading(true)
-        axios.get(`https://64f6308e2b07270f705e43e0.mockapi.io/items?page=${currentPage}&limit=4${category}${sort}${orderType}${search}`)
-            .then((res) => {
-                setItems(res.data)
-                setIsLoading(false)
-            })
+        dispatch(pizzaThunks.getPizzas(
+            {currentPage, currentCategoryId: currentCategory.id,
+            currentSortType: currentSortType.sortBy, order, searchPizza}
+        ))
     }
 
     useEffect(() => {
@@ -96,7 +67,7 @@ export const Home = ({}: HomeProps) => {
         dispatch(filterActions.setCurrentPage(newPage));
     }
 
-    const pizzasElements = items.map(pizza => {
+    const pizzasElements = pizzaItems.map(pizza => {
         const {id, price, imageUrl, title, category, rating, sizes, types} = pizza
 
         return (
@@ -117,7 +88,8 @@ export const Home = ({}: HomeProps) => {
             </div>
             <h2 className="content__title">All pizza's</h2>
             <div className="content__items">
-                {isLoading ? skeletonElements : pizzasElements}
+                {status === 'loading' ? skeletonElements : pizzasElements}
+                {status === 'failed' && <Error/>}
             </div>
             <Pagination onChangePage={onChangePageHandler} itemsPerPage={4}/>
         </div>

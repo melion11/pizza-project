@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {Search} from '../Search/Search';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import debounce from 'lodash.debounce';
-import {pizzaActions} from '../../app/slices/pizzaSlice';
+import {pizzaActions, pizzaThunks} from '../../app/slices/pizzaSlice';
 import {filterActions} from "../../app/slices/filterSlice";
 
 
@@ -24,15 +24,16 @@ export const Header = ({}: HeaderProps) => {
 
 
     const updateSearchValue = useCallback(debounce((searchValue: string) => {
-        dispatch(pizzaActions.getSearchPizza(searchValue))
+        dispatch(filterActions.getSearchPizza(searchValue))
     }, 500), [])
 
     const onClearHandler = () => {
-        dispatch(pizzaActions.getSearchPizza(''))
+        dispatch(filterActions.getSearchPizza(''))
     }
 
     const resetFiltersHandler = () => {
         dispatch(filterActions.resetFilters())
+        // dispatch(pizzaThunks.getPizzas())
     }
 
     return (
