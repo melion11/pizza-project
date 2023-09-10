@@ -42,7 +42,7 @@ const slice = createSlice({
                     (item.size === action.payload.size) &&
                     (item.type === action.payload.type))
             });
-            if (findItem && findItem.count > 0) {
+            if (findItem) {
                 findItem.count--;
                 state.totalPrice -= findItem.price;
             }

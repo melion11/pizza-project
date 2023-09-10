@@ -17,7 +17,7 @@ export const Header = ({}: HeaderProps) => {
     const {totalPrice, items} = useAppSelector(selectCart)
     const dispatch = useAppDispatch()
     const location = useLocation()
-    console.log(location)
+
 
     const totalCount = items.reduce((sum, item) => {
         return item.count + sum

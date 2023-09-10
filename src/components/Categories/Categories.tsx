@@ -1,18 +1,16 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {CategoryType, filterActions} from '../../app/slices/filterSlice';
+import useWhyDidYouUpdate  from 'ahooks/lib/useWhyDidYouUpdate';
 
 
-type CategoriesProps = {
-
-}
-
-
-export const Categories = ({}: CategoriesProps) => {
+export const Categories = memo(() => {
 
     const categories = useAppSelector(state => state.filter.categories)
     const categoryId = useAppSelector(state => state.filter.currentCategory.id)
     const dispatch = useAppDispatch()
+
+    // useWhyDidYouUpdate('Categories', { categoryId, categories });
 
     const changeCategory = (newCategory: CategoryType) => {
         dispatch(filterActions.changeCategory(newCategory))
@@ -31,6 +29,6 @@ export const Categories = ({}: CategoriesProps) => {
             </ul>
         </div>
     );
-};
+});
 
 

@@ -129,7 +129,7 @@ body {
 
       path {
         stroke: $black;
-        strokeWidth: 1.9;
+        stroke-width: 1.9;
       }
     }
   }
@@ -216,7 +216,32 @@ body {
             display: none;
           }
         }
+
+        &:disabled {
+          opacity: 0.4;
+          border-color: #787878;
+
+          &:active {
+            transform: none;
+          }
+
+          &:hover {
+            background-color: transparent;
+            svg path {
+              fill: #787878;
+            }
+            cursor: auto;
+          }
+
+          svg path {
+            fill: #787878;
+          }
+
+        }
+
+
       }
+
 
       b {
         font-size: 22px;

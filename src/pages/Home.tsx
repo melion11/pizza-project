@@ -15,8 +15,7 @@ import {Error} from '../components/Error/Error';
 export const Home = () => {
 
     const {pizzaItems, status} = useAppSelector(state => state.pizza)
-    const {
-        currentPage, currentCategory, currentSortType, order, sortTypes, categories, searchPizza
+    const {currentPage, currentCategory, currentSortType, order, sortTypes, categories, searchPizza
     } = useAppSelector(state => state.filter)
 
     const dispatch = useAppDispatch()
