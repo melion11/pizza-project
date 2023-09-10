@@ -1,9 +1,15 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 
+export enum SortBy {
+    RATING ='rating',
+    PRICE = 'price',
+    TITLE = 'title',
+}
+
 export type SortType = {
     title: string
-    sortBy: 'rating' | 'price' | 'title'
+    sortBy: SortBy
 }
 
 export type CategoryType = {
@@ -11,7 +17,10 @@ export type CategoryType = {
     title: string
 }
 
-export type OrderType =  'desc' | 'asc'
+export enum Order  {
+    DESC = 'desc',
+    ASC = 'asc'
+}
 
 type InitialStateType = {
     searchPizza: string
@@ -19,7 +28,7 @@ type InitialStateType = {
     currentCategory: CategoryType
     sortTypes: SortType[]
     currentSortType: SortType
-    order: OrderType
+    order: Order
     totalCount: number
     currentPage: number
 }
@@ -34,13 +43,13 @@ const initialState: InitialStateType = {
         {id: 5, title: 'Closed'},
     ],
     sortTypes: [
-        {title: 'popularity', sortBy: 'rating'},
-        {title: 'price', sortBy: 'price'},
-        {title: 'the alphabet', sortBy: 'title'}
+        {title: 'popularity', sortBy: SortBy.RATING},
+        {title: 'price', sortBy: SortBy.PRICE},
+        {title: 'the alphabet', sortBy: SortBy.TITLE}
     ],
     currentCategory: {id: 0, title: 'All'},
-    currentSortType: {title: 'popularity', sortBy: 'rating'},
-    order: 'desc',
+    currentSortType: {title: 'popularity', sortBy: SortBy.RATING},
+    order: Order.DESC,
     totalCount: 10,
     currentPage: 1,
     searchPizza: '',
@@ -71,7 +80,7 @@ const slice = createSlice({
             state.currentSortType = action.payload.sort
         },
         resetFilters: (state) => {
-            state.currentSortType = {title: 'popularity', sortBy: 'rating'}
+            state.currentSortType = {title: 'popularity', sortBy: SortBy.RATING}
             state.currentCategory = {id: 0, title: 'All'}
             state.currentPage = 1
         }

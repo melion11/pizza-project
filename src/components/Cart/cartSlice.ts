@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 export type PizzaItem = {
-    id: number,
+    id: string,
     imageUrl: string,
     title: string,
     type: string,

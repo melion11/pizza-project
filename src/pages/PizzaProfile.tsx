@@ -13,7 +13,7 @@ export const PizzaProfile = () => {
 
     useEffect(() => {
         if (id) {
-            dispatch(pizzaThunks.getPizzaProfile({id: Number(id)}))
+            dispatch(pizzaThunks.getPizzaProfile({id}))
         }
 
         return () => {

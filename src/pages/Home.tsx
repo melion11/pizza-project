@@ -7,8 +7,8 @@ import {Pagination} from '../components/Pagination/Pagination';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {filterActions} from '../app/slices/filterSlice';
 import qs from 'qs'
-import {Link, useNavigate} from 'react-router-dom';
-import {pizzaThunks} from '../app/slices/pizzaSlice';
+import {useNavigate} from 'react-router-dom';
+import {pizzaThunks, Status} from '../app/slices/pizzaSlice';
 import {Error} from '../components/Error/Error';
 
 
@@ -91,8 +91,8 @@ export const Home = () => {
             </div>
             <h2 className="content__title">All pizza's</h2>
             <div className="content__items">
-                {status === 'loading' ? skeletonElements : pizzasElements}
-                {status === 'failed' && <Error/>}
+                {status === Status.LOADING ? skeletonElements : pizzasElements}
+                {status === Status.FAILED && <Error/>}
             </div>
             <Pagination onChangePage={onChangePageHandler} itemsPerPage={4}/>
         </div>

@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 
 
 type PizzaBlock = {
-    id: number,
+    id: string,
     imageUrl: string,
     title: string,
     types: number[],

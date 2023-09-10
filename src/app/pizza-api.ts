@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {OrderType} from './slices/filterSlice';
+import {Order, SortBy} from './slices/filterSlice';
+import {PizzaType} from './slices/pizzaSlice';
 
 
 const instance = axios.create({
@@ -9,15 +10,16 @@ const instance = axios.create({
 
 export const pizzaApi = {
     fetchPizzas(currentPage: number, currentCategory: number,
-              currentSortType: string, order: OrderType, searchPizza: string) {
+              currentSortType: SortBy, order: Order, searchPizza: string) {
+
         const category = currentCategory > 0 ? `&category=${currentCategory}` : ''
         const sort = `&sortBy=${currentSortType}`
         const orderType = `&order=${order}`
         const search = searchPizza ? `&search=${searchPizza}` : ''
 
-        return instance.get(`items?page=${currentPage}&limit=4${category}${sort}${orderType}${search}`)
+        return instance.get<PizzaType[]>(`items?page=${currentPage}&limit=4${category}${sort}${orderType}${search}`)
     },
-    getPizzaProfile(id: number) {
-        return instance.get(`items/${id}`)
+    getPizzaProfile(id: string) {
+        return instance.get<PizzaType>(`items/${id}`)
     }
 }

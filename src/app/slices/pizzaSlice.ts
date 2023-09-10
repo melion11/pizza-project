@@ -1,10 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {pizzaApi} from '../pizza-api';
 import {createAppAsyncThunk} from '../../utils/create-app-async-thunk';
-import {OrderType} from './filterSlice';
+import {Order, SortBy} from './filterSlice';
 
 export type PizzaType = {
-    id: number
+    id: string
     imageUrl: string
     title: string
     types: [0, 1]
@@ -14,17 +14,24 @@ export type PizzaType = {
     rating: number
 }
 
+export enum Status {
+    IDLE = 'idle',
+    SUCCEEDED = 'succeeded',
+    LOADING = 'loading',
+    FAILED = 'failed',
+}
+
 type InitialStateType = {
     pizzaItems: PizzaType[]
     currentPizza: PizzaType | null
-    status: 'idle' | 'succeeded' | 'loading' | 'failed',
+    status: Status,
     error: string
 }
 
 const initialState: InitialStateType = {
     pizzaItems: [],
     currentPizza: null,
-    status: 'idle',
+    status: Status.IDLE,
     error: ''
 }
 
@@ -32,8 +39,8 @@ const initialState: InitialStateType = {
 type getPizzasArgs = {
     currentPage: number
     currentCategoryId: number
-    currentSortType: string
-    order: OrderType
+    currentSortType: SortBy
+    order: Order
     searchPizza: string
 }
 
@@ -51,7 +58,7 @@ const getPizzas = createAppAsyncThunk(
 )
 
 const getPizzaProfile = createAppAsyncThunk('pizza/getProfile',
-    async (arg: {id: number}, thunkAPI)=> {
+    async (arg: { id: string }, thunkAPI) => {
         try {
             const res = await pizzaApi.getPizzaProfile(arg.id)
             return {item: res.data}
@@ -72,25 +79,25 @@ const slice = createSlice({
     extraReducers: builder => {
         builder.addCase(getPizzas.pending, (state, action) => {
             state.pizzaItems = []
-            state.status = 'loading'
+            state.status = Status.LOADING
         })
         builder.addCase(getPizzas.fulfilled, (state, action: PayloadAction<{ items: PizzaType[] }>) => {
             state.pizzaItems = action.payload.items
-            state.status = 'succeeded'
+            state.status = Status.SUCCEEDED
         })
         builder.addCase(getPizzas.rejected, (state, action) => {
-            state.status = 'failed'
+            state.status = Status.FAILED
         })
-        builder.addCase(getPizzaProfile.pending, (state)=> {
+        builder.addCase(getPizzaProfile.pending, (state) => {
             state.pizzaItems = []
-            state.status = 'loading'
+            state.status = Status.LOADING
         })
         builder.addCase(getPizzaProfile.fulfilled, (state, action: PayloadAction<{ item: PizzaType }>) => {
             state.currentPizza = action.payload.item
-            state.status = 'succeeded'
+            state.status = Status.SUCCEEDED
         })
         builder.addCase(getPizzaProfile.rejected, (state, action) => {
-            state.status = 'failed'
+            state.status = Status.FAILED
         })
     }
 })
