@@ -4,11 +4,12 @@ import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {CartItem} from './CartItem/CartItem';
 import {cartActions} from './cartSlice';
 import {CartEmpty} from './CartEmpty/CartEmpty';
+import {selectCart} from './cart.selectors';
 
 
 export const Cart = () => {
 
-    const {items, totalPrice} = useAppSelector(state => state.cart)
+    const {items, totalPrice} = useAppSelector(selectCart)
     const dispatch = useAppDispatch()
 
     const cartElements = items.map(item => {

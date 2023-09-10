@@ -16,5 +16,8 @@ export const pizzaApi = {
         const search = searchPizza ? `&search=${searchPizza}` : ''
 
         return instance.get(`items?page=${currentPage}&limit=4${category}${sort}${orderType}${search}`)
+    },
+    getPizzaProfile(id: number) {
+        return instance.get(`items/${id}`)
     }
 }

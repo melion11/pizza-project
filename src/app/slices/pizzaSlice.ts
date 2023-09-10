@@ -16,12 +16,14 @@ export type PizzaType = {
 
 type InitialStateType = {
     pizzaItems: PizzaType[]
+    currentPizza: PizzaType | null
     status: 'idle' | 'succeeded' | 'loading' | 'failed',
     error: string
 }
 
 const initialState: InitialStateType = {
     pizzaItems: [],
+    currentPizza: null,
     status: 'idle',
     error: ''
 }
@@ -48,10 +50,25 @@ const getPizzas = createAppAsyncThunk(
     }
 )
 
+const getPizzaProfile = createAppAsyncThunk('pizza/getProfile',
+    async (arg: {id: number}, thunkAPI)=> {
+        try {
+            const res = await pizzaApi.getPizzaProfile(arg.id)
+            return {item: res.data}
+        } catch (e: any) {
+            return thunkAPI.rejectWithValue(e.message)
+        }
+    })
+
+
 const slice = createSlice({
     name: 'pizza',
     initialState,
-    reducers: {},
+    reducers: {
+        resetPizzaProfile(state) {
+            state.currentPizza = null
+        }
+    },
     extraReducers: builder => {
         builder.addCase(getPizzas.pending, (state, action) => {
             state.pizzaItems = []
@@ -64,10 +81,21 @@ const slice = createSlice({
         builder.addCase(getPizzas.rejected, (state, action) => {
             state.status = 'failed'
         })
+        builder.addCase(getPizzaProfile.pending, (state)=> {
+            state.pizzaItems = []
+            state.status = 'loading'
+        })
+        builder.addCase(getPizzaProfile.fulfilled, (state, action: PayloadAction<{ item: PizzaType }>) => {
+            state.currentPizza = action.payload.item
+            state.status = 'succeeded'
+        })
+        builder.addCase(getPizzaProfile.rejected, (state, action) => {
+            state.status = 'failed'
+        })
     }
 })
 
-export const pizzaThunks = {getPizzas}
+export const pizzaThunks = {getPizzas, getPizzaProfile}
 export const pizzaActions = slice.actions
 export const pizzaReducer = slice.reducer
 

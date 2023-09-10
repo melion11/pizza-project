@@ -7,7 +7,7 @@ import {Pagination} from '../components/Pagination/Pagination';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {filterActions} from '../app/slices/filterSlice';
 import qs from 'qs'
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {pizzaThunks} from '../app/slices/pizzaSlice';
 import {Error} from '../components/Error/Error';
 
@@ -15,7 +15,8 @@ import {Error} from '../components/Error/Error';
 export const Home = () => {
 
     const {pizzaItems, status} = useAppSelector(state => state.pizza)
-    const {currentPage, currentCategory, currentSortType, order, sortTypes, categories, searchPizza
+    const {
+        currentPage, currentCategory, currentSortType, order, sortTypes, categories, searchPizza
     } = useAppSelector(state => state.filter)
 
     const dispatch = useAppDispatch()
@@ -25,8 +26,10 @@ export const Home = () => {
 
     const fetchPizzas = () => {
         dispatch(pizzaThunks.getPizzas(
-            {currentPage, currentCategoryId: currentCategory.id,
-            currentSortType: currentSortType.sortBy, order, searchPizza}
+            {
+                currentPage, currentCategoryId: currentCategory.id,
+                currentSortType: currentSortType.sortBy, order, searchPizza
+            }
         ))
     }
 

@@ -1,27 +1,26 @@
-import React, {createContext, useState} from 'react';
+import React from 'react';
 import './App.css';
 import './scss/app.scss'
-import {Header} from "./components/Header/Header";
-import {Home} from "./pages/Home";
-import {Route, Routes} from "react-router-dom";
-import {CartPage} from "./pages/CartPage";
-import {NotFoundPage} from "./pages/NotFoundPage";
+import {Home} from './pages/Home';
+import {Route, Routes} from 'react-router-dom';
+import {CartPage} from './pages/CartPage';
+import {NotFoundPage} from './pages/NotFoundPage';
+import {PizzaProfile} from './pages/PizzaProfile';
+import {Layout} from './layouts/Layout';
 
 
 function App() {
 
 
     return (
-            <div className="wrapper">
-                <Header/>
-                <div className="content">
-                    <Routes>
-                        <Route path={'/'} element={<Home/>}/>
-                        <Route path={'/cart'} element={<CartPage/>}/>
-                        <Route path={'*'} element={<NotFoundPage/>}/>
-                    </Routes>
-                </div>
-            </div>
+        <Routes>
+            <Route path={'/'} element={<Layout/>}>
+                <Route index element={<Home/>}/>
+                <Route path={'/pizza/:id'} element={<PizzaProfile/>}/>
+                <Route path={'/cart'} element={<CartPage/>}/>
+                <Route path={'*'} element={<NotFoundPage/>}/>
+            </Route>
+        </Routes>
     );
 }
 
