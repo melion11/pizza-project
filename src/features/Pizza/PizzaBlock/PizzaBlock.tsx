@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from '../../../app/hooks/hooks';
 import {cartActions} from '../../Cart/cartSlice';
 import {Link} from 'react-router-dom';
 import {PizzaItem} from '../../Cart/types';
-import {AddIcon} from '../../../components/ui/svg/AddIcon';
+import {AddIcon} from '../../../components';
 
 
 type PizzaBlock = {

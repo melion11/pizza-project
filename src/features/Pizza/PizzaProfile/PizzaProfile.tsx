@@ -2,11 +2,10 @@ import React, {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import {pizzaActions, pizzaThunks} from '../pizzaSlice';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks/hooks';
-import {Skeleton} from '../../../components/ui/Skeleton/Skeleton';
-import {AddIcon} from '../../../components/ui/svg/AddIcon';
+import {AddIcon, Skeleton} from '../../../components';
 
 
-export const PizzaProfile = () => {
+ const PizzaProfile = () => {
 
     const pizzaProfile = useAppSelector(state => state.pizza.currentPizza)
     const {id} = useParams()
@@ -46,3 +45,4 @@ export const PizzaProfile = () => {
     );
 };
 
+export default PizzaProfile;

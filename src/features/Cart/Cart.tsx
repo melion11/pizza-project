@@ -1,16 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks/hooks';
-import {CartItem} from './CartItem/CartItem';
 import {cartActions} from './cartSlice';
-import {CartEmpty} from './CartEmpty/CartEmpty';
+import {CartEmpty, CartItem} from '../index';
 import {selectCart} from './cart.selectors';
-import {CartIcon} from '../../components/ui/svg/CartIcon';
-import {CartClear} from '../../components/ui/svg/CartClear';
-import {LeftArrow} from '../../components/ui/svg/LeftArrow';
+import {CartIcon, CartClear, LeftArrow} from '../../components';
 
 
-export const Cart = () => {
+
+const Cart = () => {
 
     const {items, totalPrice} = useAppSelector(selectCart)
     const dispatch = useAppDispatch()
@@ -72,5 +70,7 @@ export const Cart = () => {
         </div>
     );
 };
+
+export default Cart;
 
 

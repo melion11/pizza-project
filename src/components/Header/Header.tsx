@@ -1,12 +1,11 @@
 import React, {useCallback} from 'react';
 import pizzaLogo from '../../assets/img/pizza-logo.svg'
 import {Link, useLocation} from 'react-router-dom';
-import {Search} from '../ui/Search/Search';
 import {useAppDispatch, useAppSelector} from '../../app/hooks/hooks';
 import debounce from 'lodash.debounce';
 import {filterActions} from '../../features/Filter/filterSlice';
 import {selectCart} from '../../features/Cart/cart.selectors';
-import {CartIcon} from '../ui/svg/CartIcon';
+import {Search, CartIcon} from '../index'
 
 
 export const Header = () => {

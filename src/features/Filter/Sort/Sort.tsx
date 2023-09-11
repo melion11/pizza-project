@@ -2,7 +2,7 @@ import React, {memo, useEffect, useRef, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks/hooks';
 import {filterActions} from '../filterSlice';
 import {Order, SortType} from "../types";
-import {SortIcon} from '../../../components/ui/svg/SortIcon';
+import {SortIcon} from '../../../components';
 
 
 export const Sort = memo(() => {

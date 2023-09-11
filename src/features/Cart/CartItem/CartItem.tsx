@@ -2,9 +2,8 @@ import React from 'react';
 import {useAppDispatch} from '../../../app/hooks/hooks';
 import {cartActions} from '../cartSlice';
 import {PizzaItem} from '../types';
-import {MinusIcon} from '../../../components/ui/svg/MinusIcon';
-import {PlusIcon} from '../../../components/ui/svg/PlusIcon';
-import {DeleteCartIcon} from '../../../components/ui/svg/DeleteCartIcon';
+import {MinusIcon, PlusIcon, DeleteCartIcon} from '../../../components';
+
 
 type CartItem = {
     id: string,

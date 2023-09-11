@@ -1,14 +1,10 @@
 import React, {useEffect, useRef} from 'react';
-import {Categories} from '../Filter/Categories/Categories';
-import {Sort} from '../Filter/Sort/Sort';
-import {PizzaBlock} from './PizzaBlock/PizzaBlock';
-import {Skeleton} from '../../components/ui/Skeleton/Skeleton';
-import {Pagination} from '../../components/ui/Pagination/Pagination';
+import {Sort, Categories, PizzaBlock} from '../../features'
+import {Pagination, Error, Skeleton} from '../../components'
 import {useAppDispatch, useAppSelector} from '../../app/hooks/hooks';
 import {filterActions} from '../Filter/filterSlice';
 import qs from 'qs'
 import {useNavigate} from 'react-router-dom';
-import {Error} from '../../components/ui/Error/Error';
 import {pizzaThunks} from "./pizzaSlice";
 import {Status} from "./types";
 
