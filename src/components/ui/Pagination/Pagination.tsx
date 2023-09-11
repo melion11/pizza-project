@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactPaginate from 'react-paginate';
 import styles from './Pagination.module.scss'
-import {useAppDispatch, useAppSelector} from '../../app/hooks';
 
 type PaginationProps = {
     itemsPerPage: number
     onChangePage: (newPage: number) => void
+    totalCount: number
 }
 
 type PageClickEvent = {
@@ -13,9 +13,9 @@ type PageClickEvent = {
 };
 
 
-export const Pagination = ({itemsPerPage, onChangePage} : PaginationProps) => {
+export const Pagination = ({itemsPerPage, onChangePage, totalCount} : PaginationProps) => {
 
-    const totalCount = useAppSelector(state => state.filter.totalCount)
+
 
 
     const pageCount = Math.ceil(totalCount / itemsPerPage);

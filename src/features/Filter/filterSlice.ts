@@ -1,39 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {FilterInitialState, Order, SortBy} from './types';
 
 
-export enum SortBy {
-    RATING ='rating',
-    PRICE = 'price',
-    TITLE = 'title',
-}
-
-export type SortType = {
-    title: string
-    sortBy: SortBy
-}
-
-export type CategoryType = {
-    id: number
-    title: string
-}
-
-export enum Order  {
-    DESC = 'desc',
-    ASC = 'asc'
-}
-
-type InitialStateType = {
-    searchPizza: string
-    categories: CategoryType[]
-    currentCategory: CategoryType
-    sortTypes: SortType[]
-    currentSortType: SortType
-    order: Order
-    totalCount: number
-    currentPage: number
-}
-
-const initialState: InitialStateType = {
+const initialState: FilterInitialState = {
     categories: [
         {id: 0, title: 'All'},
         {id: 1, title: 'Meat'},
