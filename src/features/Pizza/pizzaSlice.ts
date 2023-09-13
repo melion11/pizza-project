@@ -43,7 +43,7 @@ const slice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(getPizzas.pending, (state, action) => {
+        builder.addCase(getPizzas.pending, (state) => {
             state.pizzaItems = []
             state.status = Status.LOADING
         })
@@ -51,7 +51,7 @@ const slice = createSlice({
             state.pizzaItems = action.payload.items
             state.status = Status.SUCCEEDED
         })
-        builder.addCase(getPizzas.rejected, (state, action) => {
+        builder.addCase(getPizzas.rejected, (state) => {
             state.status = Status.FAILED
         })
         builder.addCase(getPizzaProfile.pending, (state) => {
@@ -62,7 +62,7 @@ const slice = createSlice({
             state.currentPizza = action.payload.item
             state.status = Status.SUCCEEDED
         })
-        builder.addCase(getPizzaProfile.rejected, (state, action) => {
+        builder.addCase(getPizzaProfile.rejected, (state) => {
             state.status = Status.FAILED
         })
     }
